@@ -5,7 +5,9 @@ import net.tanguydev.ebankservice.Domain.Entities.DomainTransaction;
 import net.tanguydev.ebankservice.Domain.Gateways.TransactionRepositoryInterface;
 import net.tanguydev.ebankservice.Infrastructure.Mappers.TransactionMapper;
 import net.tanguydev.ebankservice.Infrastructure.Models.Transaction;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class TransactionRepository implements TransactionRepositoryInterface {
     private final TransactionJpaRepository transactionJpaRepository;
     private final AccountJpaRepositoryInterface repository;

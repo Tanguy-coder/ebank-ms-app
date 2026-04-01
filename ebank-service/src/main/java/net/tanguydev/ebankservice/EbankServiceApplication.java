@@ -95,14 +95,4 @@ public class EbankServiceApplication {
         return new TransfertUseCase(transactionService);
     }
 
-    @Bean
-    public TransactionServiceInterface transactionService(TransactionRepository repository, AccountRepositoryInterface accountRepository) {
-        return new TransactionService(repository, accountRepository);
-    }
-
-    @Bean
-    public TransactionRepository transactionRepository(TransactionJpaRepository transactionJpaRepository, net.tanguydev.ebankservice.Infrastructure.Repositories.AccountJpaRepositoryInterface repository, net.tanguydev.ebankservice.Infrastructure.Mappers.TransactionMapper mapper) {
-        return new TransactionRepository(transactionJpaRepository, repository, mapper);
-    }
-
 }

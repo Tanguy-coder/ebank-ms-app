@@ -9,11 +9,13 @@ import net.tanguydev.ebankservice.Domain.Gateways.AccountRepositoryInterface;
 import net.tanguydev.ebankservice.Domain.Gateways.TransactionRepositoryInterface;
 import net.tanguydev.ebankservice.Domain.Ports.TransactionServiceInterface;
 import net.tanguydev.ebankservice.Domain.Validation.Exception.AccountNotFoundException;
+import net.tanguydev.ebankservice.Domain.Validation.Exception.AvoidTransfertForTheSameAccount;
 import net.tanguydev.ebankservice.Domain.Validation.Exception.InsufficientBalanceException;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Service
 public class TransactionService implements TransactionServiceInterface {
     private final TransactionRepositoryInterface repository;
     private final AccountRepositoryInterface accountRepository ;
@@ -61,9 +63,11 @@ public class TransactionService implements TransactionServiceInterface {
     public DomainTransaction transfert(String id, String destinationId, Double amount) {
         DomainBankAccount fromAccount = findAccountById(id);
         DomainBankAccount toAccount = findAccountById(destinationId);
-
+        if (fromAccount.getId().equals(toAccount.getId())) {
+            throw new AvoidTransfertForTheSameAccount();
+        }
         if (fromAccount.getBalance() < amount) {
-            throw new InsufficientBalanceException("Insufficient balance");
+            throw new InsufficientBalanceException();
         }
 
         fromAccount.withdraw(amount);

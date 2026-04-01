@@ -1,7 +1,8 @@
 package net.tanguydev.ebankservice.Domain.Validation.Exception;
 
 public class InsufficientBalanceException extends RuntimeException {
-    public InsufficientBalanceException(String message) {
-        super(message);
+    private static final String DEFAULT_MESSAGE = "Insufficient balance";
+    public InsufficientBalanceException() {
+        super(DEFAULT_MESSAGE);
     }
 }
