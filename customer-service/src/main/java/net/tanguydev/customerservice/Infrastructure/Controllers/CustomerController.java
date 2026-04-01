@@ -9,6 +9,7 @@ import net.tanguydev.customerservice.Domain.UseCases.ListCustomersUseCaseInterfa
 import net.tanguydev.customerservice.Domain.UseCases.UpdateCustomerUseCaseInterface;
 import net.tanguydev.customerservice.Infrastructure.Mapper.CustomerMapper;
 import net.tanguydev.customerservice.Infrastructure.Request.CustomerRequest;
+import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,11 +40,13 @@ public class CustomerController {
     }
 
     @GetMapping
+    @Tool(description = "List all customers")
     public ResponseEntity<List<CustomerResponse>> index() {
         return ResponseEntity.ok(presenter.presentList(listCustomersUseCase.execute()));
     }
 
     @GetMapping("/{id}")
+    @Tool(description = "Get customer details by ID")
     public ResponseEntity<CustomerResponse> indexById(@PathVariable Long id) {
         return ResponseEntity.ok(presenter.present(getCustomerByIdUseCase.execute(id)));
     }
