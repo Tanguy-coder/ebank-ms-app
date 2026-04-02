@@ -9,8 +9,6 @@ import net.tanguydev.ebankservice.Domain.UseCases.Account.GetAccountByIdUseCaseI
 import net.tanguydev.ebankservice.Domain.UseCases.Transactions.MakeDepositUseCaseInterface;
 import net.tanguydev.ebankservice.Domain.UseCases.Transactions.MakeWithdrawUseCaseInterface;
 import net.tanguydev.ebankservice.Domain.UseCases.Transactions.TransfertUseCaseInterface;
-import net.tanguydev.ebankservice.Infrastructure.Mappers.AccountMapper;
-import net.tanguydev.ebankservice.Infrastructure.Presenter.AccountPresenter;
 import net.tanguydev.ebankservice.Infrastructure.Presenter.TransactionPresenter;
 import net.tanguydev.ebankservice.Infrastructure.Request.DepositRequest;
 import net.tanguydev.ebankservice.Infrastructure.Request.TransferRequest;
@@ -19,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/transaction")
+@RequestMapping("/api/v1/transactions")
 public class TransactionController {
     private final GetAccountByIdUseCaseInterface getAccountByIdUseCaseInterface;
     private final MakeDepositUseCaseInterface makeDepositUseCase;

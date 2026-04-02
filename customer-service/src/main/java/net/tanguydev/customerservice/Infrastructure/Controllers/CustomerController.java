@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
     private final CreateCustomerUseCaseInterface createCustomerUseCase;
     private final ListCustomersUseCaseInterface listCustomersUseCase;
@@ -47,21 +47,21 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     @Tool(description = "Get customer details by ID")
-    public ResponseEntity<CustomerResponse> indexById(@PathVariable Long id) {
+    public ResponseEntity<CustomerResponse> show(@PathVariable Long id) {
         return ResponseEntity.ok(presenter.present(getCustomerByIdUseCase.execute(id)));
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CustomerRequest customerRequest) {
+    public ResponseEntity<CustomerResponse> save(@RequestBody CustomerRequest customerRequest) {
         DomainCustomer customerToCreate = mapper.toDomain(customerRequest);
         DomainCustomer createdCustomer = createCustomerUseCase.execute(customerToCreate);
         return ResponseEntity.ok(presenter.present(createdCustomer));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @RequestBody CustomerRequest customerRequest) {
+    public ResponseEntity<CustomerResponse> update(@PathVariable Long id, @RequestBody CustomerRequest customerRequest) {
         DomainCustomer customerToUpdate = mapper.toDomain(customerRequest);
-        DomainCustomer updatedCustomer = updateCustomerUseCase.execute(customerToUpdate);
+        DomainCustomer updatedCustomer = updateCustomerUseCase.execute(id, customerToUpdate);
         return ResponseEntity.ok(presenter.present(updatedCustomer));
     }
 }
