@@ -49,13 +49,21 @@ public class AccountService implements AccountServiceInterface {
     @Override
     @McpTool(description = "Find an account by customer id")
     public DomainBankAccount findByCustomerId(@McpToolParam(description = "The customer id") Long customerId) {
-        return this.accountRepository.findByCustomerId(customerId);
+        DomainBankAccount domainBankAccount = this.accountRepository.findByCustomerId(customerId);
+        if (domainBankAccount != null) {
+            domainBankAccount.setCustomer(customerRestClient.getCustomerById(domainBankAccount.getCustomerId()));
+        }
+        return domainBankAccount;
     }
 
     @Override
     @McpTool(description = "Get all accounts")
     public List<DomainBankAccount> getAll() {
-        return this.accountRepository.getAll();
+        List<DomainBankAccount> domainBankAccounts = this.accountRepository.getAll();
+        domainBankAccounts.forEach(acc -> {
+            acc.setCustomer(customerRestClient.getCustomerById(acc.getCustomerId()));
+        });
+        return domainBankAccounts;
     }
 
 
