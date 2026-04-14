@@ -31,7 +31,7 @@ class GetAccountByCustomerIdUseCaseTest {
     @Test
     void getAccountByCustomerIdUseCase_success() {
         //Given
-        Customer customer = new Customer(2L,"Tanguy", "mail@mail.com");
+        Customer customer = new Customer(2L,"Tanguy", "mail@mail.com","63767676362");
         DomainBankAccount domainBankAccount = new DomainBankAccount("qwerty",new Date(),1000.0, AccountType.CURRENT_ACCOUNT, 2L, customer);
 
         when(accountService.findByCustomerId(customer.getId())).thenReturn(domainBankAccount);

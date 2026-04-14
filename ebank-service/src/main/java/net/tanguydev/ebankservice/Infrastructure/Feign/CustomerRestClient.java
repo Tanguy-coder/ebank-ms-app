@@ -13,6 +13,6 @@ public interface CustomerRestClient {
     Customer getCustomerById(@PathVariable  Long id);
 
     default Customer fallbackGetCustomerById(Long id, Exception e){
-        return  new Customer(id, "Not Available", "Not Available");
+        return  new Customer(id, "Not Available", "Not Available", "Not Available");
     }
 }

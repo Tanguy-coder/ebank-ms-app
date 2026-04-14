@@ -4,15 +4,17 @@ public class Customer {
     private Long id;
     private String fullName;
     private String email;
+    private String phoneNumber;
 
     public Customer() {
         super();
     }
 
-    public Customer(Long id, String fullName, String email) {
+    public Customer(Long id, String fullName, String email, String phoneNumber) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {
@@ -37,5 +39,13 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
