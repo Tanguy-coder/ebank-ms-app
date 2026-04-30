@@ -12,6 +12,7 @@ import net.tanguydev.ebankservice.Domain.UseCases.Transactions.MakeDepositUseCas
 import net.tanguydev.ebankservice.Domain.UseCases.Transactions.MakeWithdrawUseCase;
 import net.tanguydev.ebankservice.Domain.UseCases.Transactions.TransfertUseCase;
 import net.tanguydev.ebankservice.Infrastructure.Adapters.AccountService;
+import net.tanguydev.ebankservice.Infrastructure.Controllers.Config.AccountConfigParams;
 import net.tanguydev.ebankservice.Infrastructure.Mappers.AccountMapper;
 import net.tanguydev.ebankservice.Infrastructure.Mappers.TransactionMapper;
 import net.tanguydev.ebankservice.Infrastructure.Presenter.AccountPresenter;
@@ -23,11 +24,13 @@ import net.tanguydev.ebankservice.Infrastructure.Repositories.TransactionJpaRepo
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableFeignClients
+@EnableConfigurationProperties(AccountConfigParams.class)
 public class EbankServiceApplication {
 
     public static void main(String[] args) {
