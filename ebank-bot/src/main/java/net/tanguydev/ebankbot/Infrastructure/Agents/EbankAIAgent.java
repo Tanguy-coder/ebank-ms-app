@@ -12,7 +12,8 @@ import reactor.core.publisher.Flux;
 
 @Service
 public class EbankAIAgent {
-    private ChatClient chatClient;
+    private final ChatClient chatClient;
+
     public EbankAIAgent(ChatClient.Builder chatClient, ChatMemory chatMemory, ToolCallbackProvider tools) {
         this.chatClient = chatClient
                 .defaultSystem("""

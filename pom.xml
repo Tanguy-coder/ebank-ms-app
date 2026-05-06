@@ -33,8 +33,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>config-service</module>
 		<module>discovery-service</module>
+		<module>config-service</module>
 		<module>gateway-service</module>
 		<module>customer-service</module>
 		<module>ebank-service</module>
