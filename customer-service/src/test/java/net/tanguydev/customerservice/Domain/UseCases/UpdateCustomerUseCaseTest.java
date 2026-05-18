@@ -2,7 +2,6 @@ package net.tanguydev.customerservice.Domain.UseCases;
 
 import net.tanguydev.customerservice.Domain.Entities.DomainCustomer;
 import net.tanguydev.customerservice.Domain.Port.CustomerServiceInterface;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,9 +21,8 @@ class UpdateCustomerUseCaseTest {
     @InjectMocks
     private UpdateCustomerUseCase updateCustomerUseCase;
 
-    @BeforeEach
-    void setUp() {
-        // Initialise les annotations Mockito avant chaque test
+    public UpdateCustomerUseCaseTest() {
+        // Initialise les annotations Mockito dans le constructeur
         MockitoAnnotations.openMocks(this);
     }
 
