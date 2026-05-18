@@ -9,13 +9,14 @@ import net.tanguydev.customerservice.Domain.UseCases.ListCustomersUseCaseInterfa
 import net.tanguydev.customerservice.Domain.UseCases.UpdateCustomerUseCaseInterface;
 import net.tanguydev.customerservice.Infrastructure.Mapper.CustomerMapper;
 import net.tanguydev.customerservice.Infrastructure.Request.CustomerRequest;
+import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
     private final CreateCustomerUseCaseInterface createCustomerUseCase;
     private final ListCustomersUseCaseInterface listCustomersUseCase;
@@ -39,26 +40,28 @@ public class CustomerController {
     }
 
     @GetMapping
+    @Tool(description = "List all customers")
     public ResponseEntity<List<CustomerResponse>> index() {
         return ResponseEntity.ok(presenter.presentList(listCustomersUseCase.execute()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerResponse> indexById(@PathVariable Long id) {
+    @Tool(description = "Get customer details by ID")
+    public ResponseEntity<CustomerResponse> show(@PathVariable Long id) {
         return ResponseEntity.ok(presenter.present(getCustomerByIdUseCase.execute(id)));
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CustomerRequest customerRequest) {
+    public ResponseEntity<CustomerResponse> save(@RequestBody CustomerRequest customerRequest) {
         DomainCustomer customerToCreate = mapper.toDomain(customerRequest);
         DomainCustomer createdCustomer = createCustomerUseCase.execute(customerToCreate);
         return ResponseEntity.ok(presenter.present(createdCustomer));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @RequestBody CustomerRequest customerRequest) {
+    public ResponseEntity<CustomerResponse> update(@PathVariable Long id, @RequestBody CustomerRequest customerRequest) {
         DomainCustomer customerToUpdate = mapper.toDomain(customerRequest);
-        DomainCustomer updatedCustomer = updateCustomerUseCase.execute(customerToUpdate);
+        DomainCustomer updatedCustomer = updateCustomerUseCase.execute(id, customerToUpdate);
         return ResponseEntity.ok(presenter.present(updatedCustomer));
     }
 }

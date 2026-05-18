@@ -43,7 +43,7 @@ class UpdateCustomerUseCaseTest {
 
         // --- PHASE 2 : WHEN (Quand...) ---
         // On exécute l'action que l'on veut tester
-        DomainCustomer result = updateCustomerUseCase.execute(toUpdate);
+        DomainCustomer result = updateCustomerUseCase.execute(1L, toUpdate);
 
         // --- PHASE 3 : THEN (Alors...) ---
         // On vérifie que le résultat est correct (les assertions)
@@ -68,7 +68,7 @@ class UpdateCustomerUseCaseTest {
 
         when(customerService.findById(1L)).thenReturn(null);
 
-        DomainCustomer result = updateCustomerUseCase.execute(customer);
+        DomainCustomer result = updateCustomerUseCase.execute(1L, customer);
 
         assertNull(result);
         verify(customerService, times(1)).findById(1L);
@@ -85,7 +85,7 @@ class UpdateCustomerUseCaseTest {
         when(customerService.findById(1L)).thenReturn(existing);
         when(customerService.save(any(DomainCustomer.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        DomainCustomer result = updateCustomerUseCase.execute(toUpdate);
+        DomainCustomer result = updateCustomerUseCase.execute(1L, toUpdate);
         
         assertNotNull(result);
         assertNotNull(result.getEmail());

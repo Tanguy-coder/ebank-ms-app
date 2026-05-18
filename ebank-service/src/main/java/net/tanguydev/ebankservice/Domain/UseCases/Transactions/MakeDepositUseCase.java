@@ -1,19 +1,18 @@
-package net.tanguydev.ebankservice.Domain.UseCases.Opperations;
+package net.tanguydev.ebankservice.Domain.UseCases.Transactions;
 
 import net.tanguydev.ebankservice.Domain.Entities.DomainTransaction;
-import net.tanguydev.ebankservice.Domain.Gateways.AccountRepositoryInterface;
 import net.tanguydev.ebankservice.Domain.Ports.TransactionServiceInterface;
 
-public class MakeWithdrawUseCase implements MakeWithdrawUseCaseInterface{
+public class MakeDepositUseCase implements MakeDepositUseCaseInterface{
     private final TransactionServiceInterface transactionService;
 
-    public MakeWithdrawUseCase(TransactionServiceInterface transactionService) {
+    public MakeDepositUseCase(TransactionServiceInterface transactionService) {
         this.transactionService = transactionService;
     }
 
+
     @Override
     public DomainTransaction execute(String id, Double amount) {
-
-        return this.transactionService.withdraw(id, amount);
+     return  this.transactionService.deposit(id, amount);
     }
 }

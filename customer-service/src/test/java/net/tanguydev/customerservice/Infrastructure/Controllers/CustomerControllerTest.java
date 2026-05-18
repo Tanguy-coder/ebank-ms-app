@@ -49,7 +49,7 @@ class CustomerControllerTest {
                 new DomainCustomer(1L, "Alice", "alice@mail.com", "0601")
         );
         List<CustomerResponse> responses = Arrays.asList(
-                new CustomerResponse(1L, "Alice", "alice@mail.com")
+                new CustomerResponse(1L, "Alice", "alice@mail.com","5665353553723")
         );
 
         when(listCustomersUseCase.execute()).thenReturn(domainCustomers);
@@ -69,7 +69,7 @@ class CustomerControllerTest {
         String requestJson = "{\"fullName\": \"Bob\", \"email\": \"bob@mail.com\"}";
         DomainCustomer domainCustomer = new DomainCustomer(null, "Bob", "bob@mail.com", null);
         DomainCustomer savedCustomer = new DomainCustomer(1L, "Bob", "bob@mail.com", null);
-        CustomerResponse response = new CustomerResponse(1L, "Bob", "bob@mail.com");
+        CustomerResponse response = new CustomerResponse(1L, "Bob", "bob@mail.com","232355273");
 
         when(mapper.toDomain(any(CustomerRequest.class))).thenReturn(domainCustomer);
         when(createCustomerUseCase.execute(domainCustomer)).thenReturn(savedCustomer);

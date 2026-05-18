@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient("customer-service")
 public interface CustomerRestClient {
-    @GetMapping("/api/customers/{id}")
+    @GetMapping("/api/v1/customers/{id}")
     @CircuitBreaker(name = "customer-service", fallbackMethod = "fallbackGetCustomerById")
     Customer getCustomerById(@PathVariable  Long id);
 
     default Customer fallbackGetCustomerById(Long id, Exception e){
-        return  new Customer(id, "Not Available", "Not Available");
+        return  new Customer(id, "Not Available", "Not Available", "Not Available");
     }
 }

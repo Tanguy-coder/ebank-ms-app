@@ -5,6 +5,8 @@ import net.tanguydev.ebankservice.Domain.Entities.DomainBankAccount;
 import net.tanguydev.ebankservice.Domain.Gateways.AccountRepositoryInterface;
 import net.tanguydev.ebankservice.Domain.Ports.AccountServiceInterface;
 import net.tanguydev.ebankservice.Infrastructure.Feign.CustomerRestClient;
+import org.springaicommunity.mcp.annotation.McpTool;
+import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,7 +25,8 @@ public class AccountService implements AccountServiceInterface {
     }
 
     @Override
-    public DomainBankAccount save(DomainBankAccount domainBankAccount) {
+    @McpTool(description = "Save an account")
+    public DomainBankAccount save(@McpToolParam(description = "Account to save") DomainBankAccount domainBankAccount) {
         try {
             Customer customer = customerRestClient.getCustomerById(domainBankAccount.getCustomerId());
             domainBankAccount.setCustomer(customer);
@@ -36,20 +39,31 @@ public class AccountService implements AccountServiceInterface {
     }
 
     @Override
-    public Optional<DomainBankAccount> findById(String id) {
+    @McpTool(description = "Find an account by id")
+    public Optional<DomainBankAccount> findById(@McpToolParam(description = "The account id") String id) {
         DomainBankAccount domainBankAccount = this.accountRepository.findById(id);
         domainBankAccount.setCustomer(customerRestClient.getCustomerById(domainBankAccount.getCustomerId()));
         return Optional.of(domainBankAccount);
     }
 
     @Override
-    public DomainBankAccount findByCustomerId(Long customerId) {
-        return this.accountRepository.findByCustomerId(customerId);
+    @McpTool(description = "Find an account by customer id")
+    public DomainBankAccount findByCustomerId(@McpToolParam(description = "The customer id") Long customerId) {
+        DomainBankAccount domainBankAccount = this.accountRepository.findByCustomerId(customerId);
+        if (domainBankAccount != null) {
+            domainBankAccount.setCustomer(customerRestClient.getCustomerById(domainBankAccount.getCustomerId()));
+        }
+        return domainBankAccount;
     }
 
     @Override
+    @McpTool(description = "Get all accounts")
     public List<DomainBankAccount> getAll() {
-        return this.accountRepository.getAll();
+        List<DomainBankAccount> domainBankAccounts = this.accountRepository.getAll();
+        domainBankAccounts.forEach(acc -> {
+            acc.setCustomer(customerRestClient.getCustomerById(acc.getCustomerId()));
+        });
+        return domainBankAccounts;
     }
 
 
