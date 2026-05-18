@@ -14,8 +14,8 @@ public class UpdateCustomerUseCase implements UpdateCustomerUseCaseInterface {
     }
 
     @Override
-    public DomainCustomer execute(DomainCustomer domainCustomer) {
-        DomainCustomer existingCustomer = this.customerService.findById(domainCustomer.getId());
+    public DomainCustomer execute(Long id, DomainCustomer domainCustomer) {
+        DomainCustomer existingCustomer = this.customerService.findById(id);
         if (existingCustomer == null) {
             return null;
         }

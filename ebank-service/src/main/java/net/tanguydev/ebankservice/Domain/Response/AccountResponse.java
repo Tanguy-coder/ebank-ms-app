@@ -14,6 +14,9 @@ public class AccountResponse {
     private String customerId;
     private Customer customer;
 
+    public AccountResponse() {
+    }
+
     public AccountResponse(String id, Date createdAt, Double balance, AccountType type, String customerId, Customer customer) {
         this.id = id;
         this.createdAt = createdAt;

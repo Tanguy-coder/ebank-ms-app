@@ -7,14 +7,17 @@ import net.tanguydev.customerservice.Domain.UseCases.GetCustomerByIdUseCase;
 import net.tanguydev.customerservice.Domain.UseCases.ListCustomersUseCase;
 import net.tanguydev.customerservice.Domain.UseCases.UpdateCustomerUseCase;
 import net.tanguydev.customerservice.Infrastructure.Adapters.CustomerService;
+import net.tanguydev.customerservice.Infrastructure.Controllers.config.CustomerConfigParams;
 import net.tanguydev.customerservice.Infrastructure.Mapper.CustomerMapper;
 import net.tanguydev.customerservice.Infrastructure.Presenter.CustomerPresenter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableConfigurationProperties(CustomerConfigParams.class)
 public class CustomerServiceApplication {
 
     public static void main(String[] args) {

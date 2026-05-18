@@ -8,10 +8,12 @@ import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Flux;
 
 @Service
 public class EbankAIAgent {
-    private ChatClient chatClient;
+    private final ChatClient chatClient;
+
     public EbankAIAgent(ChatClient.Builder chatClient, ChatMemory chatMemory, ToolCallbackProvider tools) {
         this.chatClient = chatClient
                 .defaultSystem("""
@@ -27,6 +29,14 @@ public class EbankAIAgent {
     public String chat(String query) {
         try {
             return chatClient.prompt(query).call().content();
+        } catch (Exception e) {
+            throw new AiServiceUnavailableException();
+        }
+    }
+
+    public Flux<String> chatStream(String query) {
+        try {
+            return chatClient.prompt(query).stream().content();
         } catch (Exception e) {
             throw new AiServiceUnavailableException();
         }

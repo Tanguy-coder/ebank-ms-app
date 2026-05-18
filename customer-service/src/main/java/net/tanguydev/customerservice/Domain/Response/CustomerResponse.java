@@ -7,15 +7,17 @@ public class CustomerResponse {
     private Long id;
     private String fullName;
     private String email;
+    private String phoneNumber;
 
     public CustomerResponse() {
         super();
     }
 
-    public CustomerResponse(Long id, String fullName, String email) {
+    public CustomerResponse(Long id, String fullName, String email, String phoneNumber) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {
@@ -40,5 +42,13 @@ public class CustomerResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
