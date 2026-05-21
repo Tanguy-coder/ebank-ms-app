@@ -10,6 +10,7 @@ import net.tanguydev.ebankservice.Infrastructure.Mappers.AccountMapper;
 import net.tanguydev.ebankservice.Infrastructure.Presenter.AccountPresenter;
 import net.tanguydev.ebankservice.Infrastructure.Request.AccountRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,16 +40,19 @@ public class AccountController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<List<AccountResponse>> index() {
         return ResponseEntity.ok(presenter.presentList(accountsUseCase.execute()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<AccountResponse> getAccountById(@PathVariable String id) {
         return ResponseEntity.ok(presenter.present(getAccountByIdUseCase.execute(id)));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AccountResponse> store(@RequestBody AccountRequest request){
         DomainBankAccount accountToCreate = mapper.toDomain(request);
         DomainBankAccount createdAccount = createAccountUseCase.execute(accountToCreate);
@@ -56,6 +60,7 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AccountResponse> update(@PathVariable String id, @RequestBody AccountRequest request){
         DomainBankAccount accountToUpdate = mapper.toDomain(request);
         DomainBankAccount updatedAccount = getAccountByIdUseCase.execute(id);
@@ -64,6 +69,7 @@ public class AccountController {
     }
 
     @GetMapping("/customer/{customerId}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<AccountResponse> getAccountByCustomerId(@PathVariable Long customerId) {
         return ResponseEntity.ok(presenter.present(getAccountByCustomerIdUseCase.execute(customerId)));
     }
