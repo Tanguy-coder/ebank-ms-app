@@ -39,30 +39,4 @@ public class CustomerServiceApplication {
         };
     }
 
-    /* Presenter*/
-    @Bean
-    public CustomerPresenter customerPresenter(CustomerMapper mapper) {
-        return new CustomerPresenter(mapper);
-    }
-
-    /* Use Cases */
-    @Bean
-    public UpdateCustomerUseCase updateCustomerUseCase(CustomerServiceInterface customerServiceInterface) {
-        return new UpdateCustomerUseCase(customerServiceInterface);
-    }
-
-    @Bean
-    public CreateCustomerUseCase customerUseCase(CustomerServiceInterface customerServiceInterface) {
-        return new CreateCustomerUseCase(customerServiceInterface);
-    }
-
-    @Bean
-    public ListCustomersUseCase listCustomersUseCase(CustomerServiceInterface customerServiceInterface) {
-        return new ListCustomersUseCase(customerServiceInterface);
-    }
-
-    @Bean
-    public GetCustomerByIdUseCase getCustomerByIdUseCase(CustomerServiceInterface customerServiceInterface) {
-        return new GetCustomerByIdUseCase(customerServiceInterface);
-    }
 }

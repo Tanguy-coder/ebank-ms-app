@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerJpaRepository extends JpaRepository<Customer, Long> {
+    Customer findByEmailContainingIgnoreCase(String email);
 }

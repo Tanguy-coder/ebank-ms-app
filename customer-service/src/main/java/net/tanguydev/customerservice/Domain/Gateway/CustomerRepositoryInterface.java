@@ -8,4 +8,5 @@ public interface CustomerRepositoryInterface {
     DomainCustomer save(DomainCustomer domainCustomer);
     List<DomainCustomer> getAll();
     DomainCustomer findById(Long id);
+    DomainCustomer findByEmail(String email);
 }
