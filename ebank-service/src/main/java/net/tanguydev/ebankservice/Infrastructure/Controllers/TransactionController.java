@@ -14,6 +14,7 @@ import net.tanguydev.ebankservice.Infrastructure.Request.DepositRequest;
 import net.tanguydev.ebankservice.Infrastructure.Request.TransferRequest;
 import net.tanguydev.ebankservice.Infrastructure.Request.WithdrawRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,6 +36,7 @@ public class TransactionController {
     }
 
     @PostMapping("/deposit")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<DepositResponse> deposit(@RequestBody DepositRequest request) {
         String accountId = request.getAccountId();
         Double amount = request.getAmount();
@@ -44,6 +46,7 @@ public class TransactionController {
     }
 
     @PostMapping("/withdraw")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WithdrawResponse> withdraw(@RequestBody WithdrawRequest request) {
         String accountId = request.getAccountId();
         Double amount = request.getAmount();
@@ -53,6 +56,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transfert")
+    @PreAuthorize("hasRole('ADMIN')")
     public TransferResponse transfert(@RequestBody TransferRequest request) {
         String fromAccountId = request.getSourceAccountId();
         String toAccountId = request.getDestinationAccountId();
