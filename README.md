@@ -217,7 +217,9 @@ eureka.client.fetch-registry=false
 - Git-backed configuration storage
 - Service discovery integration
 
-**Configuration Repository**: `config-repo/`
+**Configuration Repository**: 
+- Local: `config-repo/`
+- Git: https://github.com/Tanguy-coder/ebank-ms-app-config-repo
 
 **Configuration Files**:
 - `application.properties` - Global configuration
@@ -722,7 +724,7 @@ docker-compose --version
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Tanguy-coder/ebank-ms-app.git
 cd e-bank-ms-app
 ```
 
@@ -936,19 +938,68 @@ Or use Spring DevTools (included in ebank-service).
 
 ## 🧪 Testing
 
-### Run All Tests
+### Test Architecture
+
+Due to the **Hexagonal Architecture** implemented in the business services, testing is divided into two distinct levels to ensure both speed and reliability:
+
+1. **Domain Unit Tests** (Pure Java):
+   * Located in `src/test/java/.../Domain/UseCases/`
+   * Focus exclusively on validating business rules and use cases.
+   * Executed with JUnit 5 and **Mockito** for mocking output ports (`CustomerServiceInterface`, etc.).
+   * Zero dependency on the Spring framework, making them extremely fast to execute.
+
+2. **Infrastructure/Controller Integration Tests**:
+   * Located in `src/test/java/.../Infrastructure/Controllers/`
+   * Focus on HTTP routing, request/response validation, serialization, and status codes.
+   * Executed using **MockMvc** with standalone configuration, avoiding the overhead of booting a complete Spring application context.
+
+---
+
+### Executing Tests
+
+#### 1. Run All Tests (Entire Workspace)
+
+Run the following command from the root folder to execute tests for all modules:
 
 ```bash
-# Run all tests
 mvn test
+```
 
-# Run tests for specific module
+#### 2. Run Tests for a Specific Module
+
+Navigate to a service directory and execute tests:
+
+```bash
+# For Customer Service
 cd customer-service
 mvn test
 
-# Run with coverage
+# For E-Bank Service
+cd ebank-service
+mvn test
+```
+
+#### 3. Run a Specific Test Class or Method
+
+Use the `-Dtest` property to narrow down execution:
+
+```bash
+# Run a specific test class
+mvn test -Dtest=CreateCustomerUseCaseTest
+
+# Run a specific test method in a class
+mvn test -Dtest=CreateCustomerUseCaseTest#shouldCreateCustomerSuccessfully
+```
+
+#### 4. Test Coverage Reports (Jacoco)
+
+To generate test coverage reports, run:
+
+```bash
 mvn test jacoco:report
 ```
+
+---
 
 ### Test Endpoints
 
