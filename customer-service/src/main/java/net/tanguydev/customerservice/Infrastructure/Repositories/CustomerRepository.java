@@ -35,4 +35,10 @@ public class CustomerRepository implements CustomerRepositoryInterface {
     public DomainCustomer findById(Long id) {
         return mapper.toDomain(this.repository.findById(id).get());
     }
+
+    @Override
+    public DomainCustomer findByEmail(String email) {
+        return mapper.toDomain(this.repository.findByEmailContainingIgnoreCase(email));
+    }
+
 }
