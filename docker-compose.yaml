@@ -68,6 +68,9 @@ services:
       - CONFIG_SERVICE_URL=http://ebank-config-service:9999
       - DB_HOST=postgres-server
       - DB_NAME=customers_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-server:5432/customers_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=tanguydev
       - KEYCLOAK_ISSUER_URI=http://keycloak:8080/realms/ebank-realm
     depends_on:
       ebank-config-service:
@@ -90,6 +93,9 @@ services:
       - CONFIG_SERVICE_URL=http://ebank-config-service:9999
       - DB_HOST=postgres-server
       - DB_NAME=ebank_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-server:5432/ebank_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=tanguydev
       - KEYCLOAK_ISSUER_URI=http://keycloak:8080/realms/ebank-realm
     depends_on:
       ebank-config-service:
@@ -126,7 +132,7 @@ services:
       - KC_DB_USERNAME=postgres
       - KC_DB_PASSWORD=tanguydev
     ports:
-      - "8084:8084"
+      - "8084:8080"
     command: start-dev
     depends_on:
       postgres-server:
