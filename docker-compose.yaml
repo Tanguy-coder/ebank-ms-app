@@ -71,7 +71,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-server:5432/customers_db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=tanguydev
-      - KEYCLOAK_ISSUER_URI=http://keycloak:8080/realms/ebank-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://localhost:8084/realms/ebank-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/ebank-realm/protocol/openid-connect/certs
     depends_on:
       ebank-config-service:
         condition: service_healthy
@@ -96,7 +97,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-server:5432/ebank_db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=tanguydev
-      - KEYCLOAK_ISSUER_URI=http://keycloak:8080/realms/ebank-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://localhost:8084/realms/ebank-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/ebank-realm/protocol/openid-connect/certs
     depends_on:
       ebank-config-service:
         condition: service_healthy
@@ -116,7 +118,9 @@ services:
     environment:
       - DISCOVERY_SERVICE_URL=http://ebank-discorvery-service:8761/eureka
       - CONFIG_SERVICE_URL=http://ebank-config-service:9999
-      - KEYCLOAK_ISSUER_URI=http://keycloak:8080/realms/ebank-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://localhost:8084/realms/ebank-realm
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/ebank-realm/protocol/openid-connect/certs
+      #- KEYCLOAK_ISSUER_URI=http://keycloak:8080/realms/ebank-realm
     depends_on:
       ebank-config-service:
           condition: service_healthy
