@@ -56,21 +56,21 @@ E-Bank Microservices Application is a comprehensive banking system built with **
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         API Gateway (8888)                       │
-│                    Spring Cloud Gateway + Eureka                 │
+│             Spring Cloud Gateway + Eureka + Keycloak             │
 └────────────────────────┬────────────────────────────────────────┘
                          │
-         ┌───────────────┼───────────────┐
-         │               │               │
-         ▼               ▼               ▼
-┌─────────────────┐ ┌──────────────┐ ┌──────────────┐
-│ Customer Service│ │ E-Bank Service│ │  E-Bank Bot  │
-│     (8082)      │ │    (8083)     │ │    (8084)    │
-│  + MCP Server   │ │ + MCP Server  │ │ + MCP Client │
-└────────┬────────┘ └──────┬───────┘ └──────┬───────┘
-         │                 │                  │
-         └─────────────────┼──────────────────┘
-                           │
-         ┌─────────────────┼──────────────────┐
+         ┌───────────────┼───────────────┬────────────────┐
+         │               │               │                │
+         ▼               ▼               ▼                ▼
+┌─────────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ Customer Service│ │ E-Bank Service│ │  E-Bank Bot  │ │   Keycloak   │
+│     (8082)      │ │    (8083)     │ │    (8084)    │ │    (8084)    │
+│  + MCP Server   │ │ + MCP Server  │ │ + MCP Client │ │     Auth     │
+└────────┬────────┘ └──────┬───────┘ └──────┬───────┘ └──────┬───────┘
+         │                 │                  │               │
+         └─────────────────┼──────────────────┼───────────────┘
+                           │                  │
+         ┌─────────────────┼──────────────────┤
          │                 │                  │
          ▼                 ▼                  ▼
 ┌─────────────────┐ ┌──────────────┐ ┌──────────────┐
@@ -125,7 +125,7 @@ src/main/java/net/tanguydev/{service}/
 | **Java** | 21 | Programming language |
 | **Spring Boot** | 3.5.10 / 3.5.11 / 4.0.3 | Application framework |
 | **Spring Cloud** | 2025.0.1 / 2025.1.0 | Microservices patterns |
-| **Spring AI** | 1.1.2 / 1.1.3 | AI integration |
+| **Keycloak** | 21.0.1 | Identity and Access Management |
 | **Maven** | 3.x | Build tool |
 
 ### Spring Boot Starters
@@ -414,7 +414,30 @@ The customer service exposes tools via MCP for AI integration:
 
 ---
 
-### 6. E-Bank Bot (Port: 8084)
+### 6. Keycloak (Port: 8084)
+
+**Purpose**: Identity and Access Management (IAM) for the application.
+
+**Technology Stack**:
+- Keycloak 21.0.1
+- PostgreSQL (for storage)
+
+**Key Features**:
+- Single Sign-On (SSO)
+- OAuth2 and OpenID Connect (OIDC) support
+- User management and role-based access control (RBAC)
+- Identity brokering and social login
+
+**Configuration**:
+- Realm: `ebank-realm`
+- Admin User: `admin` / `admin`
+- Port: `8084` (Conflicts with E-Bank Bot if run locally outside Docker)
+
+**Access**: http://localhost:8084
+
+---
+
+### 7. E-Bank Bot (Port: 8084)
 
 **Purpose**: AI-powered conversational interface for banking operations.
 
@@ -527,6 +550,7 @@ Each microservice provides interactive API documentation via Swagger UI:
 | Customer Service | http://localhost:8082/swagger-ui.html |
 | E-Bank Service | http://localhost:8083/swagger-ui.html |
 | E-Bank Bot | http://localhost:8084/swagger-ui.html |
+| Keycloak Admin | http://localhost:8084/admin |
 | Gateway Service | http://localhost:8888/swagger-ui.html |
 
 ### API Gateway Routing
@@ -554,6 +578,7 @@ All services expose health check endpoints via Spring Actuator:
 | Customer Service | http://localhost:8082/actuator/health |
 | E-Bank Service | http://localhost:8083/actuator/health |
 | E-Bank Bot | http://localhost:8084/actuator/health |
+| Keycloak | http://localhost:8084/health |
 
 ---
 
@@ -1312,7 +1337,6 @@ For support and questions:
 
 ### Planned Features
 
-- [ ] Authentication and Authorization (Spring Security)
 - [ ] Transaction history and reporting
 - [ ] Account statements generation
 - [ ] Multi-currency support
@@ -1355,10 +1379,9 @@ For support and questions:
 
 ### Current Security Measures
 
-- Database credentials in configuration (should use secrets)
-- No authentication/authorization (needs implementation)
-- No rate limiting (needs implementation)
-- API key exposed in config (should use environment variables)
+- **Identity and Access Management**: Keycloak for centralized authentication and authorization
+- **OAuth2/OIDC**: Services secured with JWT tokens
+- **Database Security**: Credentials managed via configuration (moving to secrets)
 
 ### Recommended Security Enhancements
 
