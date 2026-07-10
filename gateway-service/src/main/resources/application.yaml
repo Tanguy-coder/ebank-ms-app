@@ -7,23 +7,30 @@ spring:
         jwt:
           issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/ebank-realm}
   cloud:
-    config:
-      import: optional:configserver:http://localhost:9999
-      fail-fast: false
-      retry:
-        max-attempts: 3
-        initial-interval: 1000
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/CUSTOMER-SERVICE/**
+          filters:
+            - RewritePath=/CUSTOMER-SERVICE/(?<segment>.*), /${segment}
+            - TokenRelay
       server:
         webflux:
           globalcors:
-           cors-configurations:
-             '[/**]':
-               allowedOrigins: "http://localhost:4200"
-               allowedMethods: "*"
-               allowedHeaders: "*"
-               allowCredentials: 'true'
-               maxAge: 3600
+            add-to-simple-url-handler-mapping: true
+            cors-configurations:
+              '[/**]':
+                allowedOrigins: "http://localhost:86"
+                allowedMethods: "*"
+                allowedHeaders: "*"
+                allowCredentials: 'true'
+                maxAge: 3600
           default-filters:
             - TokenRelay
 #spring:
